@@ -15,7 +15,7 @@ _Like it? I'd appreciate the support :)_
 
 ### __Description__
 
-This tool gives you the ability to test the websocket connection to OBS Studio. Just download the HTMl, connect to your OBS and start testing and playing around.
+This tool gives you the ability to test the websocket connection to OBS Studio. Just download the HTML, connect to your OBS and start testing and playing around.
 
 Just a plain HTML file with some CSS and JavaScript is all you need:
 - No external dependencies loading (works offline)
@@ -28,6 +28,7 @@ Just a plain HTML file with some CSS and JavaScript is all you need:
 
 ### __Instructions__
 
+[Use it online](https://propz.de/obs-websocket-tester/) or download the HTML file and:
 - Type in your connection data (also works with password protected connections)
 - Chose the request type you wanna send
 - Fill the needed fields and send the request
