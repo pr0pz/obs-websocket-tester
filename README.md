@@ -3,6 +3,7 @@
 You can use this tool here:
 [propz.de/obs-websocket-tester](https://propz.de/obs-websocket-tester/)
 
+![Working OBS >= v28.0](https://img.shields.io/static/v1?label=OBS&message=>=28.0&color=256eff&logo=obsstudio&logoColor=fff)
 ![Made with HTML](https://img.shields.io/static/v1?label&message=HTML&color=e34c26&logo=html5&logoColor=fff)
 ![Made with CSS](https://img.shields.io/static/v1?label&message=CSS&color=304cdc&logo=css3&logoColor=fff)
 ![Made with JavaScript](https://img.shields.io/static/v1?label&message=JavaScript&color=f0db4f&logo=javascript&logoColor=323330)
@@ -18,13 +19,13 @@ _Like it? I'd appreciate the support :)_
 
 ### __Description__
 
-This tool gives you the ability to test the websocket connection to OBS Studio. Just download the HTML, connect to your OBS and start testing and playing around.
+This tool gives you the ability to test the websocket connection to OBS Studio.\
+Just download the HTML, connect to your OBS and start testing and playing around.
 
 Just a plain HTML file with some CSS and JavaScript is all you need:
-- No external dependencies loading (works offline)
+- Works only with [obs-websocket 5.x.x Protocol](https://github.com/obsproject/obs-websocket/blob/d5077fca03a47144f7c0eb81b5d3278186e31d59/docs/generated/protocol.md) (OBS >= 28.0)
+- The WebSocket connection is handled by the [obs-websocket-js package](https://github.com/obs-websocket-community-projects/obs-websocket-js) (amazing library)
 - No need to build any source files
-- Works with [obs-websocket 5.x.x Protocol](https://github.com/obsproject/obs-websocket/blob/d5077fca03a47144f7c0eb81b5d3278186e31d59/docs/generated/protocol.md) (untested with older versions)
-- The WebSocket connection is handled by the [obs-websocket-js package](https://github.com/obs-websocket-community-projects/obs-websocket-js) (embedded into the file, propz for the nice library) :)
 
 ![OBS WebSocket Tester Screenshot](https://github.com/pr0pz/obs-websocket-tester/blob/main/screenshot.gif?raw=true)
 
