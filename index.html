@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>OBS WebSocket Tester</title>
+	<meta name="description" content="Test and debug your WebSocket connection to OBS Studio with this simple tool. Just connect to OBS and start testing with your own WebSocket data.">
 
 	<link rel="icon" type="image/png" sizes="32x32"href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEeElEQVR42q2WWWhVVxSGr7baSGrTIQ0hTUWhsVTQSsEO0Iq10EqkoYRQCvWltJT2IZp7kxuNjWkNgtYBHBARiRmNJlfjPEacHtRERVBxRB9EE5WoLz44L799XSdsj+dsrsYDP+fevdde/7/WXnufFUn1ia+SQaCgrEn+L22Ujli9tHpz/7RKYbReNsUaZDbviZUJeS3yqp6yRsmFcBbowrkk0SAyeaVMNPNTV8tXU2pFIE+ipE5karNM6TOxRh2D8B5QAgAg/83M/9sm2fy/b0h529hl5lk3koxVvQzxWzjZE/MRa4T7PDuycjyAXCC+lRRQJ5masePxJnk/JfLyZslhwUU7ahukO1PtZil5IBA3SrNwBAjoolbynOTTWyQNw8th5BAuNnbs8TC1CRfQIMUqoEazYnCzap28GyqA/ToQGlW93Cal6USeRnRnXAKiAF9LVECJXaCsPRFIzh795UhpHPIstctxRe5Fy+nZpHUwVsdtETOeIWeAogvd8yK/WJyMM9XvEoDPTs3AMP+ceVeskexehwxU+FJ6E+UJnJSGbRdbko5dDhgP4qxv9wk5r77TwaNnsvBU4MLeI1eqEyCB458iL/mwdiRCVnhEVoASkIW7FPObZvJ7BjrBl7YzxsdRSMWOgj2CzTWwlWgqqY0R3hy+fmS8hfH+6mtbkAgE/xwpqZVB1rWbjeM5LLwa1VSRoWU4T/PVTFnQKWB8I+vzLH/9rOysCzgtS+3br9oUFo6DlGZo1JMYa4s6ik/vgA9swXoacpl77Fuz1xAPRekhx7k+r1F/ZI05BbC3/suG9clifOBbc87sz9kwcsV+TeF31phTxLQ1Mj5AQAHw23cZAbfcDmWXFlJBqgJ4d1eulSzfFgxnrsdnf9U47nQ7lIsqYAKQVEHhvqcnopYGZZL5PblGvvYJPWMc7wCiBdINToHD4ADopKAa1dGoFxCwWUV/qESCiOTnmJu1NdbYe1u2R6joz/jzA3ucGXE82PTHZjTOfuW9nPclR9YK9NSUefc/xb4lKWClDFYbYX7Bc0RMZkHwKe9vwOcYDXfcfF+A2dhdschPW4XXbYg8QupijGYhofb5nuFccJSBGyHNRaHaFYEFiJoQkKG/EdNBuzZWe8VfPHIrC7u1IM2JusP8G17UTa6qhrBNF+ZbTm8gZhn41i9mxloZaE5X0PHGVwa3bz/wiZ32wUBcKF8lGfop7gjIUA9kQzx/RjB2YX1CcViR/eG8XFbLfC2ivIBWbTs2GZr6avbY1agcdlV6u+Nyefzfesk1dsU1Mt2a+9P6nkyLOhpVPX4HQwWwL69jeC6kMxIILszcIG8nM1FH9ddLvtXSzVOhLvTAQRCOh4vnHQxPhnTFJoW/+/qCMWBnCuRdrHe25XZRDgAJcBYcAi0QxIn444D+cJESuHBQm9q+P1T8QLaikqhnWh+a6hDih6Ciz6S6x6MhP6adjHc/bCxvlgFawEVKKOA62ZrD2NC+8toFOgTHVaAZ7Pb6CLvH5/8IxgtBeqp+nwDPhqWHzCbpPgAAAABJRU5ErkJggg==
 	" />
@@ -78,6 +80,10 @@
 		</div>
 	</section>
 
+	<footer>
+		Built by <a href="https://propz.de" target="_blank" rel="noopener">propz</a> - Check out <a href="https://obsproject.com/" target="_blank" rel="noopener">OBS Studio</a> + <a href="https://github.com/obs-websocket-community-projects/obs-websocket-js" target="_blank" rel="noopener">obs-websocket-js</a>
+	</footer>
+
 </div>
 
 <style>
@@ -99,6 +105,7 @@
 	--color-secondary: #72a2ff;
 	--color-tertiary: #444b6d;
 	--color-link: var(--color-secondary);
+	--color-intro: #626c9d;
 
 	--color-red: #e2274f;
 	--color-red-dark: #bd193c;
@@ -128,6 +135,7 @@ body {
 	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
+	/* General */
 	#logo-inner {
 		fill: var(--color-primary);
 	}
@@ -150,6 +158,9 @@ body {
 	a {
 		color: var( --color-link );
 	}
+		a:hover {
+			text-decoration: none;
+		}
 
 	.flex {
 		display: flex;
@@ -163,22 +174,28 @@ body {
 		white-space: pre-wrap;
 	}
 
-
-#wrapper {
-	max-width:1280px;
-	margin:0 auto
-}
-
-#intro {
-	margin-bottom: calc( 2 * var(--padding-block) );
-}
-
-	#intro svg {
-		width: 10rem;
-		margin-bottom: var(--padding-block);
-		fill: #fff;
+	footer {
+		font-size: 80%;
+		color: var(--color-intro);
 	}
 
+	#wrapper {
+		max-width:1280px;
+		margin:0 auto
+	}
+
+	#intro {
+		margin-bottom: calc( 2 * var(--padding-block) );
+		color: var(--color-intro);
+	}
+
+		#intro svg {
+			width: 10rem;
+			margin-bottom: var(--padding-block);
+			fill: #fff;
+		}
+
+/* Block */
 .block {
 	background: var(--bg-block);
 	background-clip: border-box;
@@ -340,6 +357,7 @@ body {
 				background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
 			}
 
+/* Status */
 .status {
 	--status-bg: var(--color-tertiary);
 	--status-color: var(--color-secondary);
@@ -372,13 +390,18 @@ var OBSWebSocket=function(){function e(){return e=Object.assign?Object.assign.bi
 <script>
 document.addEventListener( 'DOMContentLoaded', function()
 {
+	const version = '1.0';
+
 	console.log(`\n%cOBS WebSocket Tester`, 'color:#72a2ff;background:#191b26;font-size:1rem;padding:.75rem; padding: 1rem auto; border:2px solid #256eff; border-radius: 4px;font-weight: bold; font-family: monospace');
 
-	console.log( `%cWelcome to the OBS WebSocket Connection Tester\n\n› Author: Wellington Estevo\n› Version: 1.0\n› Web: https://propz.de\n› Twitch: https://propz.de/twitch/\n\nLike it? I'd appreciate the support :)\n`, 'font-size:1rem;line-height:1.5;' );
+	console.log( `%cWelcome to the OBS WebSocket Connection Tester\n\n› Author: Wellington Estevo\n› Version: ${version}\n› Web: https://propz.de\n› Twitch: https://propz.de/twitch/\n\nLike it? I'd appreciate the support :)\n`, 'font-size:1rem;line-height:1.5;' );
 
 	var obs;
 	var obsData;
 	const obsDataUrl = 'https://raw.githubusercontent.com/obsproject/obs-websocket/master/docs/generated/protocol.json';
+
+	// Set title with version number
+	document.title += ` - v${version}`;
 
 	/**
 	 * OBS Connection handler

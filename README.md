@@ -1,5 +1,8 @@
 # __OBS WebSocket Tester__
 
+You can use this tool here:
+[propz.de/obs-websocket-tester](https://propz.de/obs-websocket-tester/)
+
 ![Made with HTML](https://img.shields.io/static/v1?label&message=HTML&color=e34c26&logo=html5&logoColor=fff)
 ![Made with CSS](https://img.shields.io/static/v1?label&message=CSS&color=304cdc&logo=css3&logoColor=fff)
 ![Made with JavaScript](https://img.shields.io/static/v1?label&message=JavaScript&color=f0db4f&logo=javascript&logoColor=323330)
