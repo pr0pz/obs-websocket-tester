@@ -355,6 +355,42 @@ body {
 				background-color: var(--color-secondary);
 				background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
 			}
+	
+	.form-radio-wrapper {
+		border: 0;
+	}
+
+		.form-radio-wrapper .form-control {
+			display: flex;
+			flex-direction: column;
+			gap: var(--padding-field);
+			padding-left: calc( var(--padding-field) * 2 );
+		}
+
+		.form-radio-input {
+			margin-left: calc( var(--padding-field) * -1 );
+			float: left;
+			border-radius: 0.25em;
+			flex-shrink: 0;
+			width: 1em;
+			height: 1em;
+			margin-top: 0.25em;
+			margin-right: 1rem;
+			vertical-align: top;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+			border: .3rem solid var(--color-secondary);
+			border-radius: 100%;
+		}
+
+		.form-radio-input:checked {
+			background-color: var(--color-secondary);
+			background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+		}
 
 /* Status */
 .status {
@@ -385,7 +421,7 @@ body {
 <script>
 document.addEventListener( 'DOMContentLoaded', function()
 {
-	const version = '1.0';
+	const version = '1.1';
 
 	console.log(`\n%cOBS WebSocket Tester`, 'color:#72a2ff;background:#191b26;font-size:1rem;padding:.75rem; padding: 1rem auto; border:2px solid #256eff; border-radius: 4px;font-weight: bold; font-family: monospace');
 
@@ -542,9 +578,11 @@ document.addEventListener( 'DOMContentLoaded', function()
 				const valueRequiredText = valueRequired ? 'required, ' : '';
 				const valueType = field.valueType.toLowerCase();
 				const valueName = field.valueName;
-
+				
 				// Dynamic input options
 				let valueTypeText = valueType;
+				// String or null
+				let valueDefault = field.valueOptionalBehavior === null ? 'false' : field.valueOptionalBehavior;
 				let inputElement = 'input';
 				let inputType = 'text';
 				let inputClass = 'form-control';
@@ -552,14 +590,69 @@ document.addEventListener( 'DOMContentLoaded', function()
 				let inputLabelClass = 'form-label';
 				let inputHelpId = `${valueName}Helper`;
 
+				// Create right description
+				let valueDescription = `${valueName} (${valueRequiredText}${valueTypeText})`;
+				if ( field.valueRestrictions )
+					valueDescription = `${valueName} (${valueRequiredText}${valueTypeText}: ${field.valueRestrictions})`;
+				
 				switch (valueType)
 				{
 					case 'boolean':
-						inputType = 'checkbox';
-						inputClass = 'form-check-input';
-						inputLabelClass = 'form-check-label';
-						inputWrapperClass = 'form-check';
-						break;
+						valueTypeText = 'boolean (select one)';
+						valueDefault = valueDefault.toLowerCase() === 'true' ? true : false;
+
+						// Create radio input for true
+						const trueInput = document.createElement('input');
+						trueInput.type = 'radio';
+						trueInput.name = valueName;
+						trueInput.id = `${valueName}_true`;
+						trueInput.value = 1;
+						trueInput.checked = valueDefault;
+						trueInput.required = valueRequired;
+						trueInput.classList.add('form-radio-input');
+
+						const trueLabel = document.createElement('label');
+						trueLabel.textContent = 'True';
+						trueLabel.classList.add('form-radio-label');
+						trueLabel.htmlFor = trueInput.id;
+						trueLabel.prepend(trueInput);
+
+						// Create radio input for false
+						const falseInput = document.createElement('input');
+						falseInput.type = 'radio';
+						falseInput.name = valueName;
+						falseInput.id = `${valueName}_false`;
+						falseInput.value = 0;
+						falseInput.checked = !valueDefault;
+						falseInput.required = valueRequired;
+						falseInput.classList.add('form-radio-input');
+
+						const falseLabel = document.createElement('label');
+						falseLabel.textContent = 'False';
+						falseLabel.classList.add('form-radio-label');
+						falseLabel.htmlFor = falseInput.id;
+						falseLabel.prepend(falseInput);
+
+						const inputLabel = document.createElement( 'label' );
+						inputLabel.textContent = valueDescription;
+						inputLabel.classList.add( inputLabelClass );
+
+						const inputDescription = document.createElement( 'div' );
+						inputDescription.id = inputHelpId;
+						inputDescription.textContent = field.valueDescription;
+						inputDescription.classList.add( 'form-text' );
+
+						const inputWrapper = document.createElement('div');
+						inputWrapper.classList.add(inputWrapperClass);
+						inputWrapper.classList.add('form-radio-wrapper');
+
+						const inputRadioWrapper = document.createElement('div');
+						inputRadioWrapper.classList.add('form-control');
+
+						inputRadioWrapper.append(trueLabel, falseLabel);
+						inputWrapper.append(inputLabel, inputDescription, inputRadioWrapper);
+						requestFields.appendChild(inputWrapper);
+						return;
 					case 'number':
 						inputType = 'number';
 						break;
@@ -569,12 +662,7 @@ document.addEventListener( 'DOMContentLoaded', function()
 						break;
 				}
 
-				// Create right description
-				let valueDescription = `${valueName} (${valueRequiredText}${valueTypeText})`;
-				if ( field.valueRestrictions )
-					valueDescription = `${valueName} (${valueRequiredText}${valueTypeText}: ${field.valueRestrictions})`;
-
-				// Set everything together
+				// Create Inputfield
 				const inputField = document.createElement( inputElement );
 				inputField.name = valueName;
 				inputField.id = valueName;
@@ -602,11 +690,7 @@ document.addEventListener( 'DOMContentLoaded', function()
 				const inputWrapper = document.createElement( 'div' );
 				inputWrapper.classList.add( inputWrapperClass );
 
-				// Different position for checkbox
-				if ( inputWrapperClass === 'form-check' )
-					inputWrapper.append( inputField, inputLabel, inputDescription );
-				else
-					inputWrapper.append( inputLabel, inputDescription, inputField );
+				inputWrapper.append( inputLabel, inputDescription, inputField );
 
 				requestFields.appendChild( inputWrapper );
 			});
@@ -665,19 +749,21 @@ document.addEventListener( 'DOMContentLoaded', function()
 
 		document.querySelectorAll( '#request-fields > div' ).forEach( fieldContainer =>
 		{
-			const input = fieldContainer.querySelector( 'input, textarea' );
-			if ( input )
+			fieldContainer.querySelectorAll( 'input, textarea' ).forEach( input =>
 			{
 				let val = input.value;
 				if ( input.placeholder.toLowerCase().includes( 'object' ) ) val = JSON.parse( val );
-				if ( input.placeholder.toLowerCase().includes( 'boolean' ) ) val = input.checked;
 				if ( input.placeholder.toLowerCase().includes( 'number' ) ) val = parseInt( val );
-
+				if ( input.type === 'radio' )
+				{
+					console.log( input );
+					if ( input.checked !== true ) return;
+					val = !!parseInt( input.value );
+				} 
 				console.log( input, val );
 
 				requestData.requestData[input.name] = val;
-				//requestData[input.name] = val;
-			}
+			});
 		});
 		console.log( '› Sending request:', requestData );
 		document.querySelector( '#request-sent' ).textContent = "Sent data: \n" + JSON.stringify( requestData, null, "\t" );
